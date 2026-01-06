@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Details</title>
+    <style>
+        :root {
+            --primary: #ff4655; /* Valo Red */
+            --primary-hover: #d93b48;
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --text-main: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 50px; }
+
+        nav { padding: 20px; max-width: 1000px; margin: 0 auto; }
+        nav a { text-decoration: none; color: var(--text-secondary); font-weight: 500; }
+        nav a:hover { color: var(--primary); }
+
+        .wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        /* Header */
+        .header-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+        }
+        
+        .app-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #222;
+        }
+
+        .header-info h1 { font-size: 2rem; margin-bottom: 5px; }
+        .badge {
+            background-color: #333;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Buttons Container */
+        .btn-container { margin-top: 20px; display: flex; gap: 10px; }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { border-color: white; }
+
+        /* Screenshots */
+        .screenshots {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            scrollbar-color: var(--bg-color) var(--primary);
+        }
+        screenshots::-webkit-scrollbar {
+            background-color: #d93b48; 
+        }
+        .screenshot {
+            min-width: 300px;
+            height: 180px;
+            background: #000;
+            border: 1px solid var(--border);
+            object-fit: cover;
+        }
+
+        /* Content */
+        .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        h2 { font-size: 1.25rem; margin-bottom: 15px; color: white; }
+        p, ul { color: var(--text-secondary); line-height: 1.6; margin-bottom: 15px; }
+        ul { list-style-position: inside; }
+        
+        .info-box {
+            background: #0a0a0a;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        .info-item { margin-bottom: 15px; }
+        .info-label { display: block; font-size: 0.85rem; color: #666; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; }
+        .info-value { font-weight: 500; color: white; }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .header-section { flex-direction: column; text-align: center; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">&larr; Back to Extensions</a>
+    </nav>
+
+    <div class="wrapper" id="content-area">
+        <p style="text-align:center">Loading details...</p>
+    </div>
+
+    <script>
+        // ⬇️ PASTE YOUR RAW GITHUB JSON LINK HERE (Same as index.html)
+        const DATA_URL = 'https://raw.githubusercontent.com/PrasenKakade21/blogs/refs/heads/main/extensions.json';
+
+        async function loadDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const targetId = params.get('id');
+            const container = document.getElementById('content-area');
+
+            if (!targetId) {
+                container.innerHTML = "<p>No extension specified.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch(DATA_URL);
+                const data = await response.json();
+                const ext = data.find(item => item.id === targetId);
+
+                if (!ext) {
+                    container.innerHTML = "<p>Extension not found.</p>";
+                    return;
+                }
+
+                const featuresHtml = ext.features.map(f => `<li>${f}</li>`).join('');
+                const screenshotsHtml = ext.screenshots.map(s => 
+                    `<img src="${s}" class="screenshot" alt="Screenshot">`
+                ).join('');
+
+                // Check if github_url exists, otherwise hide the button
+                const githubBtn = ext.github_url 
+                    ? `<a href="${ext.github_url}" target="_blank" class="btn btn-secondary">View on GitHub</a>` 
+                    : '';
+
+                container.innerHTML = `
+                    <div class="header-section">
+                        <img src="${ext.icon}" class="app-icon" alt="${ext.name}">
+                        <div class="header-info">
+                            <h1>${ext.name}</h1>
+                            <span class="badge">Version ${ext.version}</span>
+                            <div class="btn-container">
+                                <a href="${ext.download_url}" class="btn btn-primary">Download Extension</a>
+                                ${githubBtn}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Screenshots</h2>
+                    <div class="screenshots">
+                        ${screenshotsHtml || '<p style="color:#666">No screenshots available.</p>'}
+                    </div>
+
+                    <div class="content-grid">
+                        <div class="main-desc">
+                            <h2>About this extension</h2>
+                            <p>${ext.full_desc}</p>
+                            <h2 style="margin-top: 30px;">Key Features</h2>
+                            <ul>${featuresHtml}</ul>
+                        </div>
+
+                        <aside>
+                            <div class="info-box">
+                                <div class="info-item">
+                                    <span class="info-label">Version</span>
+                                    <div class="info-value">${ext.version}</div>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Developer</span>
+                                    <div class="info-value">${ext.developer}</div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                `;
+
+                document.title = `${ext.name} - Details`;
+
+            } catch (error) {
+                container.innerHTML = `<p>Error loading data: ${error.message}</p>`;
+            }
+        }
+
+        loadDetails();
+    </script>
+</body>
+</html>

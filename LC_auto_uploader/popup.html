@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 320px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    h3 {
+      margin: 0 0 16px 0;
+      color: #333;
+    }
+    .input-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #555;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #2ea44f;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    button:hover {
+      background: #2c974b;
+    }
+    button:disabled {
+      background: #94d3a2;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      display: none;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    .help-text {
+      font-size: 11px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .platform-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .badge-leetcode { background: #ffa116; color: white; }
+    .badge-codeforces { background: #1f8dd6; color: white; }
+    .badge-codechef { background: #5b4638; color: white; }
+    .badge-atcoder { background: #000; color: white; }
+    .badge-unknown { background: #666; color: white; }
+  </style>
+</head>
+<body>
+  <h3>CP to GitHub</h3>
+  
+  <div class="platform-badge badge-unknown" id="platformBadge">Unknown Platform</div>
+  
+  <div class="input-group">
+    <label>GitHub Token</label>
+    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+    <div class="help-text">Generate at github.com/settings/tokens</div>
+  </div>
+  
+  <div class="input-group">
+    <label>Repository (username/repo)</label>
+    <input type="text" id="repoName" placeholder="username/cp-solutions">
+  </div>
+  
+  <div class="input-group">
+    <label>Folder Path (optional)</label>
+    <input type="text" id="folderPath" placeholder="solutions/">
+  </div>
+  
+  <button id="saveConfig">Save Configuration</button>
+  <button id="uploadCode">Upload Current Solution</button>
+  
+  <div class="status" id="status"></div>
+  
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

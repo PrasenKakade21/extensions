@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Extensions Showcase</title>
+    <style>
+        :root {
+            --primary: #ff4655; /* Valo Red */
+            --primary-hover: #d93b48;
+            --bg-color: #000000; /* Pure Black */
+            --card-bg: #111111; /* Very Dark Grey */
+            --text-main: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+        body { background-color: var(--bg-color); color: var(--text-main); padding-bottom: 50px; }
+
+        /* Header */
+        header {
+            background: linear-gradient(180deg, rgba(20,20,20,0.9) 0%, rgba(0,0,0,1) 100%);
+            border-bottom: 2px solid var(--primary);
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        header p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Card */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px; /* Sharper corners */
+            padding: 25px;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .card h3 { margin-bottom: 10px; font-size: 1.25rem; }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; flex-grow: 1; }
+
+        .btn-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        .btn-link:hover { text-decoration: underline; }
+        
+        .loading { grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Extensions by Kakade.dev</h1>
+        <p>Tools designed to improve My productivity and workflow.</p>
+        <p style="color: #ff4655;">Privacy Focused. OSS. No Crap.</p>
+    </header>
+
+    <main class="container" id="extension-grid">
+        <div class="loading">Loading extensions...</div>
+    </main>
+
+    <script>
+        // ⬇️ PASTE YOUR RAW GITHUB JSON LINK HERE
+        const DATA_URL = 'https://raw.githubusercontent.com/PrasenKakade21/blogs/refs/heads/main/extensions.json';
+
+        async function loadExtensions() {
+            const grid = document.getElementById('extension-grid');
+            try {
+                const response = await fetch(DATA_URL);
+                if (!response.ok) throw new Error("Failed to fetch data");
+                const data = await response.json();
+
+                grid.innerHTML = '';
+
+                data.forEach(ext => {
+                    const card = document.createElement('article');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${ext.icon}" alt="${ext.name}" class="card-icon">
+                        <h3>${ext.name}</h3>
+                        <p>${ext.short_desc}</p>
+                        <a href="details.html?id=${ext.id}" class="btn-link">View Details &rarr;</a>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                grid.innerHTML = `<div class="loading">Error loading data: ${error.message}</div>`;
+            }
+        }
+
+        loadExtensions();
+    </script>
+</body>
+</html>

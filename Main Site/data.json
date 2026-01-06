@@ -1,0 +1,33 @@
+[
+  {
+    "id": "quick-launcher",
+    "name": "Quick Launcher",
+    "short_desc": "Launch your favorite apps with custom shortcuts.",
+    "full_desc": "Quick Launcher is the ultimate productivity tool for power users. Define custom hotkeys for any URL.",
+    "icon": "https://via.placeholder.com/100/2563eb/ffffff?text=QL",
+    "version": "2.4.0",
+    "developer": "Parag Dakhane",
+    "download_url": "#",
+    "github_url": "https://github.com/yourname/repo",
+    "features": ["Custom Hotkeys", "Dark Mode", "Cloud Sync"],
+    "screenshots": [
+      "https://via.placeholder.com/400x250/e2e8f0/94a3b8?text=Screenshot+1",
+      "https://via.placeholder.com/400x250/e2e8f0/94a3b8?text=Screenshot+2"
+    ]
+  },
+  {
+    "id": "dark-mode-pro",
+    "name": "Dark Mode Pro",
+    "short_desc": "Force dark theme on any website.",
+    "full_desc": "Save your eyes by forcing a high contrast dark mode on websites that do not support it natively.",
+    "icon": "https://via.placeholder.com/100/1e293b/ffffff?text=DM",
+    "version": "1.0.5",
+    "developer": "Parag Dakhane",
+    "download_url": "#",
+    "github_url": "https://github.com/yourname/repo",
+    "features": ["OLED Black Theme", "Schedule Toggle"],
+    "screenshots": [
+      "https://via.placeholder.com/400x250/e2e8f0/94a3b8?text=Main+UI"
+    ]
+  }
+]
